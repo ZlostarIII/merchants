@@ -1,1 +1,6 @@
 rootProject.name = 'emerchantpay'
+
+include 'admin'
+include 'merchant'
+include 'registration'
+include 'gateway'
