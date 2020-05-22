@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: merchant
+  datasource:
+    url: jdbc:mysql://localhost:3307/merchant_db?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&sessionVariables=sql_mode='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION'
+    username: "vlad"
+    password: "vlad"
+    hikari:
+      connection-test-query: "SELECT 1"
+      minimum-idle: 2
+      maximum-pool-size: 100
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      use-new-id-generator-mappings: false
+      ddl-auto: validate
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1111/eureka/
+
+server:
+  port: 8083

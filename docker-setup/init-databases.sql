@@ -1,0 +1,8 @@
+CREATE DATABASE IF NOT EXISTS admin_db DEFAULT CHARACTER SET = utf8mb4;
+GRANT ALL PRIVILEGES ON admin_db.* TO 'vlad'@'%';
+
+CREATE DATABASE IF NOT EXISTS merchant_db DEFAULT CHARACTER SET = utf8mb4;
+GRANT ALL PRIVILEGES ON merchant_db.* TO 'vlad'@'%';
+
+CREATE DATABASE IF NOT EXISTS merchant_service_db DEFAULT CHARACTER SET = utf8mb4;
+GRANT ALL PRIVILEGES ON merchant_service_db.* TO 'vlad'@'%';
