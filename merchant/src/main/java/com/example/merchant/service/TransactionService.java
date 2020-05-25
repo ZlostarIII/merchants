@@ -9,6 +9,8 @@ import com.example.merchant.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 @Service
@@ -94,5 +96,9 @@ public class TransactionService {
     private boolean isMerchantActive(String email) {
         return merchantRepository.findByEmail(email).isPresent()
                 && MerchantStatus.ACTIVE.equals(merchantRepository.findByEmail(email).get().getStatus());
+    }
+
+    public void deleteTransactionsHourly() {
+        transactionRepository.deleteAllOlderThan(Instant.now().minus(1, ChronoUnit.HOURS));
     }
 }

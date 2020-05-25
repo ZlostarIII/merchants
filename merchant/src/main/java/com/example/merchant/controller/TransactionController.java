@@ -6,6 +6,7 @@ import com.example.merchant.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -40,6 +41,12 @@ public class TransactionController {
     @PostMapping("refund")
     public ResponseEntity<Transaction> refundTransaction(@Valid @RequestBody Transaction transaction) {
         return new ResponseEntity<>(transactionService.refundTransaction(transaction), HttpStatus.OK);
+    }
+
+    @GetMapping("assign-hourly")
+    @Scheduled(cron = "0 0 * * * *")
+    public void deleteTransactionsHourly() {
+        transactionService.deleteTransactionsHourly();
     }
 
     //TODO - Try using state machines

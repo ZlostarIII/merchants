@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity
@@ -41,6 +39,9 @@ public class Transaction {
 
     private String referenceId;
 
+    @NotNull
+    private Instant created;
+
     @ManyToOne
     @JoinColumn(name = "merchant_id", referencedColumnName = "id")
     private Merchant merchant;
@@ -48,6 +49,7 @@ public class Transaction {
     @PrePersist
     public void prePersist() {
         this.id = UUID.randomUUID().toString();
+        this.created = Instant.now();
     }
 
 }
