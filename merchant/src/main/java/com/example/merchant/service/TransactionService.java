@@ -6,6 +6,8 @@ import com.example.merchant.model.Transaction;
 import com.example.merchant.model.TransactionStates;
 import com.example.merchant.repository.MerchantRepository;
 import com.example.merchant.repository.TransactionRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ import java.util.Optional;
 
 @Service
 public class TransactionService {
+
+    private static Logger logger = LoggerFactory.getLogger(TransactionService.class);
 
     private final TransactionRepository transactionRepository;
     private final MerchantRepository merchantRepository;
@@ -99,6 +103,7 @@ public class TransactionService {
     }
 
     public void deleteTransactionsHourly() {
+        logger.info("Scheduled job executed at: " + Instant.now());
         transactionRepository.deleteAllOlderThan(Instant.now().minus(1, ChronoUnit.HOURS));
     }
 }
