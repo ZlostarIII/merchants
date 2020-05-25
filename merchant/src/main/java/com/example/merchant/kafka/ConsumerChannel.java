@@ -8,8 +8,12 @@ import org.springframework.stereotype.Component;
 public interface ConsumerChannel {
 
     String INPUT_CHANNEL = "merchant";
+    String ADMIN_CHANNEL = "merchant-for-deletion";
 
     @Input(INPUT_CHANNEL)
     SubscribableChannel merchantSource();
+
+    @Input(ADMIN_CHANNEL)
+    SubscribableChannel adminSource();
 
 }

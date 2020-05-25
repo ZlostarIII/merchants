@@ -22,6 +22,10 @@ public class MerchantService {
         return merchantRepository.findById(id);
     }
 
+    public Optional<Merchant> findByNameOrEmail(String name, String email) {
+        return merchantRepository.findByNameOrEmail(name, email);
+    }
+
     public Merchant save(Merchant merchant) {
         return merchantRepository.save(merchant);
     }
