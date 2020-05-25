@@ -39,3 +39,8 @@ zuul:
       path : /merchant/**
       sensitiveHeaders:
       url : http://localhost:8083/merchant
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1111/eureka/
