@@ -13,7 +13,7 @@ import java.time.Instant;
 public interface TransactionRepository extends CrudRepository<Transaction, String> {
 
     @Modifying
-    @Query("delete from Transaction t where = :t.created < :before")
+    @Query("delete from Transaction t where t.created < :before")
     int deleteAllOlderThan(@Param("before") Instant before);
 
 }
