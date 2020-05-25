@@ -24,7 +24,6 @@ public class Transaction {
     @Id
     private String id;
 
-    @NotBlank
     @Min(0)
     private int amount;
 

@@ -44,7 +44,6 @@ public class Merchant {
     @Column(length = 60, columnDefinition = "ENUM('ACTIVE', 'INACTIVE')")
     private MerchantStatus status;
 
-    @NotBlank
     @Min(0)
     private int totalTransactionSum;
 

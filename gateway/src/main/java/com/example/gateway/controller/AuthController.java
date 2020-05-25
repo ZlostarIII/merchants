@@ -11,7 +11,7 @@ import com.example.gateway.model.auth.SignUpRequest;
 import com.example.gateway.repository.RoleRepo;
 import com.example.gateway.repository.UserRepo;
 import com.example.gateway.security.JwtTokenProvider;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.gateway.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,10 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -33,20 +30,21 @@ import java.util.Collections;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    @Autowired
-    AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final UserRepo userRepository;
+    private final RoleRepo roleRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider tokenProvider;
+    private final AuthService authService;
 
-    @Autowired
-    UserRepo userRepository;
-
-    @Autowired
-    RoleRepo roleRepository;
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
-    @Autowired
-    JwtTokenProvider tokenProvider;
+    public AuthController(AuthenticationManager authenticationManager, UserRepo userRepository, RoleRepo roleRepository, PasswordEncoder passwordEncoder, JwtTokenProvider tokenProvider, AuthService authService) {
+        this.authenticationManager = authenticationManager;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.tokenProvider = tokenProvider;
+        this.authService = authService;
+    }
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -87,5 +85,11 @@ public class AuthController {
                 .buildAndExpand(result.getUsername()).toUri();
 
         return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
+    }
+
+    @PostMapping("/signup/{type}")
+    public ResponseEntity<User> registerUserByType(@Valid @RequestBody SignUpRequest signUpRequest,
+                                                   @PathVariable String type) {
+        return new ResponseEntity<>(authService.registerUserByType(signUpRequest, type), HttpStatus.CREATED);
     }
 }
